@@ -14,9 +14,13 @@
 .xref:01-setup.adoc[Get Started]
 * xref:01-setup.adoc#minikube[Minikube]
 
+[.tile]
 .xref:02-env-overview.adoc[Environment Overview]
+* 
 
+[.tile]
 .xref:03-installation.adoc[Installation and Verification]
+* 
 
 [.tile]
 .xref:04-app-basic.adoc[Application Management Basics]
