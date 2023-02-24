@@ -11,8 +11,8 @@
 == コンテンツ
 
 [.tile]
-.xref:01-setup.adoc[Get Started]
-.xref:02-env-overview.adoc[Environment Overview]
+xref:01-setup.adoc[Get Started]
+xref:02-env-overview.adoc[Environment Overview]
 
 
 .xref:03-installation.adoc[Installation and Verification]
