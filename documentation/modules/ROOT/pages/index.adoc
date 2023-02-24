@@ -1,4 +1,4 @@
-= OpenShift Ops Track　チュートリアル
+= OpenShift Ops Trackチュートリアル
 :page-layout: home
 :!sectids:
 
@@ -15,30 +15,43 @@
 * xref:01-setup.adoc#minikube[Minikube]
 
 [.tile]
-.xref:02-env-overview.adoc[2. Environment Overview]
+.xref:02-env-overview.adoc[Environment Overview]
+
 [.tile]
-.xref:03-installation.adoc[3. Installation and Verification]
+.xref:03-installation.adoc[Installation and Verification]
+
 [.tile]
-.xref:04-app-basic.adoc[4. Application Management Basics]
+.xref:04-app-basic.adoc[Application Management Basics]
+
 [.tile]
-.xref:05-storage-basic.adoc[5. Application Storage Basics]
+.xref:05-storage-basic.adoc[Application Storage Basics]
+
 [.tile]
-.xref:06-machineset.adoc[6. MachineSets, Machines, and Nodes]
+.xref:06-machineset.adoc[MachineSets, Machines, and Nodes]
+
 [.tile]
-.xref:07-operator.adoc[7. Infrastructure Nodes and Operators]
+.xref:07-operator.adoc[Infrastructure Nodes and Operators]
+
 [.tile]
-.xref:08-logging.adoc[8. OpenShift Log Aggregation]
+.xref:08-logging.adoc[OpenShift Log Aggregation]
+
 [.tile]
-.xref:09-auth.adoc[9. External (LDAP) Authentication Providers, Users, and Groups]
+.xref:09-auth.adoc[External (LDAP) Authentication Providers, Users, and Groups]
+
 [.tile]
-.xref:10-monitoring.adoc[10. OpenShift Monitoring with Prometheus]
+.xref:10-monitoring.adoc[OpenShift Monitoring with Prometheus]
+
 [.tile]
-.xref:11-project.adoc[11. Project Template, Quota, and Limits]
+.xref:11-project.adoc[Project Template, Quota, and Limits]
+
 [.tile]
-.xref:12-network.adoc[12. OpenShift Networking and NetworkPolicy]
+.xref:12-network.adoc[OpenShift Networking and NetworkPolicy]
+
 [.tile]
-.xref:13-clusterrolebinding.adoc[13. Disabling Project Self-Provisioning]
+.xref:13-clusterrolebinding.adoc[Disabling Project Self-Provisioning]
+
 [.tile]
-.xref:14-clusterresourcequota.adoc[14. Cluster Resource Quotas]
+.xref:14-clusterresourcequota.adoc[Cluster Resource Quotas]
+
 [.tile]
-.xref:15-taint.adoc[15. Taints and Tolerations]
+.xref:15-taint.adoc[Taints and Tolerations]
