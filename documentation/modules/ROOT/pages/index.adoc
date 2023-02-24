@@ -1,20 +1,44 @@
-= Welcome to Template Tutorial
+= OpenShift Ops Track　チュートリアル
 :page-layout: home
 :!sectids:
 
 [.text-center.strong]
-== Publish Services to Kubernetes
+== 環境準備
 
-A Kubernetes tutorial to show how you can deploy a Java service to a Kubernetes cluster as it was a child game.
+＜ハンズオンを実施するためのRHDPの払い出しの仕方の説明を追記＞
 
 [.tiles.browse]
-== Browse modules
+== コンテンツ
 
 [.tile]
 .xref:01-setup.adoc[Get Started]
 * xref:01-setup.adoc#minikube[Minikube]
 
 [.tile]
-.xref:02-deploy.adoc[Deploying]
-* xref:02-deploy.adoc#package[Package the Application]
-* xref:02-deploy.adoc#deploy[Deploy the Application]
+.xref:02-env-overview.adoc[2. Environment Overview]
+[.tile]
+.xref:03-installation.adoc[3. Installation and Verification]
+[.tile]
+.xref:04-app-basic.adoc[4. Application Management Basics]
+[.tile]
+.xref:05-storage-basic.adoc[5. Application Storage Basics]
+[.tile]
+.xref:06-machineset.adoc[6. MachineSets, Machines, and Nodes]
+[.tile]
+.xref:07-operator.adoc[7. Infrastructure Nodes and Operators]
+[.tile]
+.xref:08-logging.adoc[8. OpenShift Log Aggregation]
+[.tile]
+.xref:09-auth.adoc[9. External (LDAP) Authentication Providers, Users, and Groups]
+[.tile]
+.xref:10-monitoring.adoc[10. OpenShift Monitoring with Prometheus]
+[.tile]
+.xref:11-project.adoc[11. Project Template, Quota, and Limits]
+[.tile]
+.xref:12-network.adoc[12. OpenShift Networking and NetworkPolicy]
+[.tile]
+.xref:13-clusterrolebinding.adoc[13. Disabling Project Self-Provisioning]
+[.tile]
+.xref:14-clusterresourcequota.adoc[14. Cluster Resource Quotas]
+[.tile]
+.xref:15-taint.adoc[15. Taints and Tolerations]
