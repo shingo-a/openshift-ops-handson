@@ -14,46 +14,54 @@
 .xref:01-setup.adoc[Get Started]
 * xref:01-setup.adoc#minikube[Minikube]
 
-[.tile]
-.xref:02-env-overview.adoc[Environment Overview]
-* 
 
-[.tile]
-.xref:03-installation.adoc[Installation and Verification]
-* 
+* xref:02-env-overview.adoc[Environment Overview]
+* xref:03-installation.adoc[Installation and Verification]
+
 
 [.tile]
 .xref:04-app-basic.adoc[Application Management Basics]
+* 
 
 [.tile]
 .xref:05-storage-basic.adoc[Application Storage Basics]
+* 
 
 [.tile]
 .xref:06-machineset.adoc[MachineSets, Machines, and Nodes]
+* 
 
 [.tile]
 .xref:07-operator.adoc[Infrastructure Nodes and Operators]
+* 
 
 [.tile]
 .xref:08-logging.adoc[OpenShift Log Aggregation]
+* 
 
 [.tile]
 .xref:09-auth.adoc[External (LDAP) Authentication Providers, Users, and Groups]
+* 
 
 [.tile]
 .xref:10-monitoring.adoc[OpenShift Monitoring with Prometheus]
+* 
 
 [.tile]
 .xref:11-project.adoc[Project Template, Quota, and Limits]
+* 
 
 [.tile]
 .xref:12-network.adoc[OpenShift Networking and NetworkPolicy]
+* 
 
 [.tile]
 .xref:13-clusterrolebinding.adoc[Disabling Project Self-Provisioning]
-
+* 
 [.tile]
 .xref:14-clusterresourcequota.adoc[Cluster Resource Quotas]
+* 
 
 [.tile]
 .xref:15-taint.adoc[Taints and Tolerations]
+* 
