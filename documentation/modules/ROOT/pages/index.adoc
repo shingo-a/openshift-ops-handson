@@ -12,11 +12,10 @@
 
 [.tile]
 .xref:01-setup.adoc[Get Started]
-* xref:01-setup.adoc#minikube[Minikube]
+.xref:02-env-overview.adoc[Environment Overview]
 
 
-* xref:02-env-overview.adoc[Environment Overview]
-* xref:03-installation.adoc[Installation and Verification]
+.xref:03-installation.adoc[Installation and Verification]
 
 
 [.tile]
