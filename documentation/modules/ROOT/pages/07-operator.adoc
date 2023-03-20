@@ -1,6 +1,6 @@
 ## OpenShift Infrastructure Nodes
 
-OpenShift components that fall into the infrastructure categorization include:
+インフラストラクチャの分類に分類される OpenShift コンポーネントには、次のものがあります。
 
 * kubernetes and OpenShift control plane services ("masters")
 * router
