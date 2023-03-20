@@ -1,43 +1,116 @@
-= Deploy Service
-include::_attributes.adoc[]
+## Environment Overview
 
-[#service]
-== The Service
+{{ ENVIRONMENT }} で実行されている OpenShift 4 クラスターと対話します。 ラボでは、OpenShift Data もインストールします
+Rook/Ceph に基づく Foundation。
 
-The code:
+OpenShift 4 インストールの基本は事前に完了しています。
+OpenShift クラスターは基本的にすべてデフォルトに設定されており、
+以下のように構成されています。：
 
-[.lines_7]
-[.console-input]
-[source, java,subs="+macros,+attributes"]
+* 3 master nodes
+* 2 worker nodes
+* 1 bastion host
+
+link:https://github.com/openshift-labs/workshop-dashboard[Homeroom] は、この統合されたラボ ガイド、ターミナル、および Web コンソール ペインを提供するソリューションです。 実際には、対話するクラスター内で実行されています。
+
+## Conventions
+これらの演習では、さまざまなコードとコマンド ブロックが表示されます。 一部のコマンド ブロックは、直接実行できます。 その他は、実行前にコマンドを変更する必要があります。 赤い枠線の付いたコマンド ブロックが表示された場合 (以下を参照)、コマンドはクリップボードにコピーされ、わずかな変更が必要になります。
+
+コマンドブロックの横にあるアイコンは、コマンドが実行されるかコピーされるかを示します。
+
+- このコマンド ブロックは、変更のためにクリップボードにコピーされます。
+
+[source,none,role="copypaste copypaste-warning"]
 ----
-public class Main {
+some command to modify
+----
+[Note]
+====
+コピーしたコマンドを貼り付けるには、次を試してください
 
-    public static void main(String[] args) {
+- Cmd + V _macOS 上の Chrome で動作することがテスト済み_
+- Ctrl + Shift + V _Windows 10 の Chrome および Firefox で動作することがテスト済み_
+- ターミナル ウィンドウで右クリック + 貼り付け _Windows 10 の Edge で動作することがテスト済み_
+====
 
-    } 
+- これはコンソールで実行されます
 
-}
-
-./mvnw compile
+[source,none,role="execute"]
+----
+echo Hello World\!
 ----
 
-[#package]
-== Packaging the Service
+ほとんどのコマンド ブロックは、自動強調表示またはクリックによる実行をサポートしています。 上のコマンド ブロックにカーソルを合わせて左クリックすると、すべてのテキストが自動的に強調表示され、コピーしやすくなります。 ブロックの横にある記号を見て、コピーまたは実行されるかどうかを確認します。
 
-You can package the next bash script:
+### Cluster Admin Authentication
+このラボ ガイドにアクセスするために提供したログインは、実際には、操作する端末や Web コンソールとは何の関係もありません。 人間以外のユーザー アカウントである `ServiceAccounts` と呼ばれる Kubernetes の機能を使用します。 ターミナルおよび Web コンソール タブは、これらの `ServiceAccounts` の 1 つを使用して OpenShift API と対話しており、そのアカウントには _cluster-admin_ `ClusterRole` が付与されています。 これにより、ターミナルと Web コンソールが API に対して管理/特権アクションを実行できるようになります。
 
-[source,bash,subs="+macros,+attributes"]
+OpenShift の権限は、一連のロール、ポリシー、およびバインディングによって制御されます。これらについては、このワークショップの演習の 1 つで詳しく学習します。
+
+簡単な例として、次のコマンドを実行して、`Role` とは何かについて詳しく知ることができます。
+
+[source,bash,role="execute"]
 ----
-include::example$run.sh[]
+oc explain Role
 ----
 
-[#deploy]
-== Deploy the Service
+`ClusterRole` がどのように異なるかを調べます。
 
-And then you can deploy the service and execute commands inside:
+[source,bash,role="execute"]
+----
+oc explain ClusterRole
+----
 
-:podname: apps
+以下を実行して、`RoleBinding` について詳しく知ることができます。
 
-include::partial$exec_pod.adoc[]
+[source,bash,role="execute"]
+----
+oc explain RoleBinding
+----
 
-:!podname:
+`ClusterRoleBinding` の違いを調べます。
+
+[source,bash,role="execute"]
+----
+oc explain ClusterRoleBinding
+----
+
+ `oc explain [RESOURCE]` を使用して、さまざまなオブジェクトについての詳細な説明をいつでも取得できます。
+
+`ClusterRole` _cluster-admin_ で定義された PolicyRules を見てみましょう。
+
+[source,bash,role="execute"]
+----
+oc get clusterrole cluster-admin -o yaml
+----
+
+ルールの下で、_cluster-admin_ ロールを持つアカウントには、apiGroup のすべての `resources` と `verbs` 、および `nonResourceURLs` のすべての `verbs` へのワイルドカード `*` アクセス権があることに注意してください。
+
+`verb` は、リソースに対して実行するアクションです。  `delete` や `get` などは、OpenShift では `verb` です。
+
+特定の動詞について詳しく知るには、 `oc [verb] --help` を実行します
+
+`verb`  _whoami_ についてもっと学びましょう:
+
+[source,bash,role="execute"]
+----
+oc whoami --help
+----
+
+`oc whoami` を実行して、今日使用するアカウントを確認します。
+
+[source,bash,role="execute"]
+----
+oc whoami
+----
+
+`ServiceAccount` _cluster-admin_ `ClusterRole` を与えた _dashboard-cluster-admin_ `ClusterRoleBinding` を調べてみましょう。
+
+[source,bash,role="execute"]
+----
+oc get clusterrolebinding dashboard-cluster-admin -o yaml
+----
+
+この `ServiceAccount` は、この `ClusterRoleBinding` のサブジェクトであり、参照されるロールは _cluster-admin_ `ClusterRole` であることに注意してください。
+
+演習全体でクラスター管理者として、前述のようにクラスターで何でもできるので、慎重に指示に従ってください。
