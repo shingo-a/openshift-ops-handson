@@ -1,20 +1,20 @@
 ## MachineSets, Machines, and Nodes
 
-Kubernetes `Nodes` are where containers are orchestrated and run in `Pods`. OpenShift 4 is fundamentally different than OpenShift 3 with respect to its focus on automated operations through the use of `Operators`. With respect to `Nodes`, there is a set of `Operators` and controllers that are focused on maintaining the state of the cluster size -- including creating and destroying `Nodes`!
+Kubernetes の `Nodes` は、コンテナーがオーケストレーションされ、 `Pods` で実行される場所です。 OpenShift 4 は、 `Operators` の使用による自動化された操作に重点を置いているという点で、OpenShift 3 とは根本的に異なります。  `Nodes` に関しては、クラスター サイズの状態を維持することに重点を置いた一連の `Operator` とコントローラーがあります。これには、 `Nodes` の作成と破棄が含まれます。
 
 ### MachineSets and Machines
-As you saw in the application management exercises, there is a basic fundamental relationship between a `ReplicaSet`/`ReplicationController` and the `Pods` it creates. Similarly, there is a relationship between a `MachineSet` and a `Machine`.
+アプリケーション管理の演習で見たように、`ReplicaSet`/`ReplicationController` とそれが作成する `Pod` の間には基本的な基本的な関係があります。 同様に、MachineSet と Machine の間にも関係があります。
 
-The `MachineSet` defines a desired state for a set of `Machine` objects. When using IPI installations, then, there is an `Operator` whose job it is to make sure that there is actually an underlying instance for each `Machine` and, finally, that every `Machine` becomes a `Node`.
+ `MachineSet` は、一連の `Machine` オブジェクトの望ましい状態を定義します。 IPI インストールを使用する場合、各 `Machine` の基礎となるインスタンスが実際に存在することを確認し、最後にすべての `Machine` が `Nodes` になるようにする `Operator` があります。
 
-Execute the following:
+以下を実行します。
 
 [source,bash,role="execute"]
 ----
 oc get machineset -n openshift-machine-api
 ----
 
-You will see something like:
+次のようなものが表示されます。
 
 ----
 NAME                                    DESIRED   CURRENT   READY   AVAILABLE   AGE
@@ -23,14 +23,14 @@ cluster-6ljsd-9b8vz-worker-us-east-2b   1         1         1       1           
 cluster-6ljsd-9b8vz-worker-us-east-2c   0         0                             167m
 ----
 
-When OpenShift was installed, the installer interrogated the cloud provider to learn about the available AZs (since this is on AWS). It then ultimately created a `MachineSet` for each AZ and then scaled those sets, in order, until it reached the desired number of `Machines`. Since the default installation has 2 workers, the first 2 AZs got one worker each. The rest got zero.
+OpenShift がインストールされると、インストーラーはクラウド プロバイダーに問い合わせて、利用可能な AZ について調べました (これは AWS 上にあるため)。 次に、最終的に各 AZ の `MachineSet` を作成し、必要な数の `Machine` に達するまで、これらのセットを順番にスケーリングしました。 デフォルトのインストールには 2 つのワーカーがあるため、最初の 2 つの AZ にはそれぞれ 1 つのワーカーが割り当てられます。 残りはゼロになりました。
 
 [source,bash,role="execute"]
 ----
 oc get machine -n openshift-machine-api
 ----
 
-You will see something like:
+次のようなものが表示されます。
 
 ----
 NAME                                         INSTANCE              STATE     TYPE         REGION      ZONE         AGE
@@ -42,21 +42,21 @@ cluster-f4a3-lpxbs-worker-us-east-2b-m8gbx   i-0fb8d960b8a3a3343   running   m5.
 cluster-f4a3-lpxbs-worker-us-east-2c-5tmg7   i-0151c72cd85f85038   running   m5.2xlarge   us-east-2   us-east-2c   47h
 ----
 
-Each `Machine` has a corresponding `INSTANCE`. Do those IDs look familiar? They are AWS EC2 instance IDs. You also see `Machines` for the OpenShift masters. They are not part of a `MachineSet` because they are somewhat stateful and their management is handled by different operators and through a different process.
+各 `Machine` には、対応する `INSTANCE` があります。 これらの ID に見覚えはありますか? これらは AWS EC2 インスタンス ID です。 OpenShift マスターの `Machines` も表示されます。 それらはある程度ステートフルであり、それらの管理は異なるオペレーターによって、異なるプロセスを通じて処理されるため、 `MachineSet` の一部ではありません。
 
 [Warning]
 ====
-There is currently no protection for the master `Machines`. Do not accidentally or intentionally delete them, as this will potentially break your cluster. It is repairable, but it is not fun.
+現在、マスターの `Machines` に対する保護はありません。 誤ってまたは意図的に削除しないでください。クラスターが破損する可能性があります。 修理可能ですが、楽しくありません。
 ====
 
-Lastly, execute:
+最後に、次を実行します。
 
 [source,bash,role="execute"]
 ----
 oc get nodes
 ----
 
-You will see something like:
+次のようなものが表示されます。
 
 ----
 NAME                                         STATUS   ROLES    AGE     VERSION
@@ -68,21 +68,21 @@ ip-10-0-231-224.us-east-2.compute.internal   Ready    worker   3h53m   v1.22.3+e
 ip-10-0-244-159.us-east-2.compute.internal   Ready    master   4h6m    v1.22.3+e790d7f
 ----
 
-Each `Machine` ends up corresponding to a `Node`. With IPI, there is a bootstrap process where the machine operator will create an EC2 instance and then Ignition inside the RHEL CoreOS operating system will receive initial instructions from the operator. This results in the EC2 instance being configured as an OpenShift node and joining the cluster.
+各 `Machine` は最終的に `Node` に対応します。 IPI では、マシン オペレーターが EC2 インスタンスを作成し、RHEL CoreOS オペレーティング システム内の Ignition がオペレーターから最初の指示を受け取るブートストラップ プロセスがあります。 これにより、EC2 インスタンスが OpenShift ノードとして構成され、クラスターに参加します。
 
-If you spend some time using `oc describe` and the various `Machine` and `Node` objects, you will figure out which ones correlate with which.
+`oc describe` とさまざまな `Machine` および `Node` オブジェクトをしばらく使用すると、どのオブジェクトがどのオブジェクトと関連しているかがわかります。
 
 ### Cluster Scaling
-Because of the magic of `Operators` and the way in which OpenShift uses them to manage `Machines` and `Nodes`, scaling your cluster in OpenShift 4 is extremely trivial.
+ `Operators` の魔法と、OpenShift が `Operators` を使用して `Machines` と `Nodes` を管理する方法により、OpenShift 4 でクラスターをスケーリングすることは非常に簡単です。
 
-Look at the list of `MachineSets` again:
+ `MachineSets` のリストをもう一度見てください。
 
 [source,bash,role="execute"]
 ----
 oc get machineset -n openshift-machine-api
 ----
 
-Within that list, we will scale one of the `MachineSet` objects with the `oc scale` command. Run:
+そのリスト内で、 `oc scale` コマンドを使用して `MachineSet` オブジェクトの 1 つをスケーリングします。 走る：
 
 [source,bash,role="execute"]
 ----
@@ -91,27 +91,27 @@ ZONENAME=$(oc get nodes -L topology.kubernetes.io/zone  --no-headers  | awk '{pr
 oc scale machineset ${CLUSTERNAME}-worker-${ZONENAME} -n openshift-machine-api --replicas=2
 ----
 
-Take special note the `MachineSet` scaled is likely different from the one that is shown in the lab guide. You should see a note that the `MachineSet` was successfully scaled. Now, look at the list of `Machines`:
+スケーリングされた `MachineSet` は、ラボ ガイドに示されているものとは異なる可能性があることに注意してください。  `MachineSet` が正常にスケーリングされたというメモが表示されるはずです。 それでは、`Machines` のリストを見てください:
 
 [source,bash,role="execute"]
 ----
 oc get machines -n openshift-machine-api
 ----
 
-You probably already have new entries for 2 new `Machine` with a `STATE` of `Pending`. After a few moments, both will have a corresponding EC2 instance ID and will look something like:
+おそらく、`Pending` の `STATE` を持つ 2 つの新しい `Machine` の新しいエントリが既にあるはずです。 しばらくすると、両方が対応する EC2 インスタンス ID を持ち、次のようになります。
 
 ----
 cluster-f4a3-lpxbs-worker-us-east-2c-h7gdt   i-0b9208ec47f0e206b   running   m5.2xlarge     us-east-2   us-east-2c   47s
 ----
 
-At this point, in the background, the bootstrap process is happening automatically. After several minutes (up to five or so), take a look at the output of:
+この時点で、バックグラウンドで、ブートストラップ プロセスが自動的に行われます。 数分後 (最大 5 分程度)、次の出力を確認します。
 
 [source,bash,role="execute"]
 ----
 oc get nodes
 ----
 
-You should see your fresh and happy new nodes. They are the ones with a very young age:
+新鮮で幸せな新しいノードが表示されるはずです。 彼らは非常に若い年齢のものです：
 
 ----
 ip-10-0-166-103.us-east-2.compute.internal   Ready    worker   1m   v1.16.2
@@ -119,14 +119,14 @@ ip-10-0-166-103.us-east-2.compute.internal   Ready    worker   1m   v1.16.2
 
 [Note]
 ====
-It can take several minutes for a `Machine` to be prepared and added as a `Node`. You can follow the process by running a `watch` against `oc get nodes` if you wish.
+ `Machine` が準備され、 `Node` として追加されるまでに数分かかる場合があります。 必要に応じて、 `oc get nodes` に対して `watch` を実行することで、プロセスをたどることができます。
 ====
 
-Scale the `MachineSet` from two back down to one before continuing.
+続行する前に、`MachineSet` を 2 つから 1 つにスケールダウンします。
 
 [Warning]
 ====
-Make sure you've set the ${CLUSTERNAME} and ${ZONENAME} varaible from when you scaled up, a few steps ago.
+${CLUSTER NAME} 変数と ${ZONE NAME} 変数を、数ステップ前にスケールアップしたときに設定したことを確認してください。
 ====
 
 [source,bash,role="execute"]
